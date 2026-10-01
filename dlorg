@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+# We create a refference to the filepath, in this case Downloads.
+filepath=~/Downloads
+# We create a list of all folders we want to check and create.
+folders="Images Music PDF Documents"
+
+# We grab each folder from folders and check if they exist otherwise we create them.
+for folder in $folders
+do
+    echo "$folde"
+
+    if [ -d "$filepath/$folder" ]; then
+        echo $filepath/$folder
+    else 
+        mkdir "$filepath/$folder" 
+    fi 
+done
+
