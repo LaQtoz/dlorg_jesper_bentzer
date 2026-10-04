@@ -2,13 +2,23 @@
 
 # We create a refference to the filepath, in this case Downloads.
 filepath=~/Downloads
+
 # We create a list of all folders we want to check and create.
-folders="Images Music PDF Documents"
+folders="Images Music Videos PDF Documents Other"
+
+#Listing all different file types to each folder, we are basically telling each refference that file types they are looking for.
+Images="jpg png gif"
+Music="mp3 wav flac"
+Videos="mp4 mkv avi"
+PDF="pdf"
+Documents="txt doc docx"
+Other=
+
 
 # We grab each folder from folders and check if they exist otherwise we create them.
 for folder in $folders
 do
-    echo "$folde"
+    echo "$folder"
 
     if [ -d "$filepath/$folder" ]; then
         echo $filepath/$folder
@@ -17,3 +27,34 @@ do
     fi 
 done
 
+for file in "$filepath"/*
+do
+    if [ -f "$file" ]; then
+        extension="${file##*.}"
+        extension="${extention,,}"
+        
+case "$extension" in
+    jpg|jpeg|png|gif)
+        folder="Images"
+        ;;
+    mp3|wav|flac)
+        folder="Music"
+        ;;
+    mp4|mkv|avi)
+        folder="Videos"
+        ;;
+    pdf)
+        folder="PDF"
+        ;;
+    txt|doc|docx)
+        folder="Documents"
+        ;;
+    *)
+        folder="Other"
+        ;;
+
+    esac
+
+  echo mv -- "$file" "$filepath/$folder/"
+    fi
+done
