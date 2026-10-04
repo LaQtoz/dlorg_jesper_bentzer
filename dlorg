@@ -31,7 +31,7 @@ for file in "$filepath"/*
 do
     if [ -f "$file" ]; then
         extension="${file##*.}"
-        extension="${extention,,}"
+        extension="${extension,,}"
         
 case "$extension" in
     jpg|jpeg|png|gif)
