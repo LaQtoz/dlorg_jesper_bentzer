@@ -1,31 +1,21 @@
 #!/usr/bin/env bash
 
-# We create a refference to the filepath, in this case Downloads.
-filepath=~/Downloads
+# We create a reference to the filepath, in this case Downloads.
+filepath="$HOME/Downloads"
 
 # We create a list of all folders we want to check and create.
-folders="Images Music Videos PDF Documents Other"
+folders="Images Music Videos PDF Documents Archives Code Other"
 
-#Listing all different file types to each folder, we are basically telling each refference that file types they are looking for.
-Images="jpg png gif"
-Music="mp3 wav flac"
-Videos="mp4 mkv avi"
-PDF="pdf"
-Documents="txt doc docx"
-Other=
+while true
+do
 
-
-# We grab each folder from folders and check if they exist otherwise we create them.
+# We grab each folder from folders and check if they exist, otherwise we create them.
 for folder in $folders
 do
-    echo "$folder"
-
-    if [ -d "$filepath/$folder" ]; then
-        echo $filepath/$folder
-    else 
-        mkdir "$filepath/$folder" 
-    fi 
+    mkdir -p "$filepath/$folder"
+    echo "Created $filepath/$folder"  
 done
+
 
 for file in "$filepath"/*
 do
@@ -33,28 +23,42 @@ do
         extension="${file##*.}"
         extension="${extension,,}"
         
-case "$extension" in
-    jpg|jpeg|png|gif)
-        folder="Images"
-        ;;
-    mp3|wav|flac)
-        folder="Music"
-        ;;
-    mp4|mkv|avi)
-        folder="Videos"
-        ;;
-    pdf)
-        folder="PDF"
-        ;;
-    txt|doc|docx)
-        folder="Documents"
-        ;;
-    *)
-        folder="Other"
-        ;;
+        case "$extension" in
+            jpg|jpeg|png|gif)
+                folder="Images"
+                ;;
+            mp3|wav|flac)
+                folder="Music"
+                ;;
+            mp4|mkv|avi)
+                folder="Videos"
+                ;;
+            pdf)
+                folder="PDF"
+                ;;
+            txt|doc|docx)
+                folder="Documents"
+                ;;
+            zip|tar|gz|bz2|xz|7z|rar)
+                folder="Archives"
+                ;;
+            sh|py|jc|c|cpp|java)
+                folder="Code"
+                ;;
 
-    esac
-
-  echo mv -- "$file" "$filepath/$folder/"
+            *)
+                folder="Other"
+                ;;
+        esac
+        
+        echo "Moving: $file -> $filepath/$folder/"
+        mv -- "$file" "$filepath/$folder/"
     fi
+
+done
+
+# We wait 5 secounds before starting the next while loop
+
+sleep 5
+
 done
