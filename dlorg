@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
 
-# We create a reference to the filepath, in this case Downloads.
+# Store the path to Downloads directory.
 filepath="$HOME/Downloads"
 
-# We create a list of all folders we want to check and create.
+
+# We store the names of all folders we want to check and create.
 folders="Images Music Videos PDF Documents Archives Code Other"
 
+
+# Start of loop
 while true
 do
 
@@ -20,9 +23,12 @@ done
 for file in "$filepath"/*
 do
     if [ -f "$file" ]; then
+# Extract everything after the last "." in the filename.
+# Then convert the extension to lowercase
         extension="${file##*.}"
         extension="${extension,,}"
         
+# We take all files that contain certain names (jpg, mp3, mp4 ..) and tell them where to go.
         case "$extension" in
             jpg|jpeg|png|gif)
                 folder="Images"
@@ -42,7 +48,7 @@ do
             zip|tar|gz|bz2|xz|7z|rar)
                 folder="Archives"
                 ;;
-            sh|py|jc|c|cpp|java)
+            sh|py|js|c|cpp|java)
                 folder="Code"
                 ;;
 
