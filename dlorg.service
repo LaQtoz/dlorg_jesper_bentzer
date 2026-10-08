@@ -1,10 +1,25 @@
+# [Unit] contains general informaiton abou the service
+# and defines when it should be started.
+
+# [Description] is jus that it describes what this dose.
+
+# [After=default.target] Tells systemd to start this service after default.target has been reach 
+
 [Unit]
 Description="Organizes Download folder"
 After=default.target
 
+# [Service] contains instructions for how the program should be run.
+
+# [Type=simple] runs the program continously. The service stays active as long as the program is running.
+
+# [ExecStart] points to the command systemd should run in this case dlorg.
+
 [Service]
 Type=simple
 ExecStart=%h/.local/bin/dlorg
+
+# [Install] Wantedby=default.target tells systemd that this sercice should start when the user's default target is started. 
 
 [Install]
 WantedBy=default.target
