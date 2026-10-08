@@ -1,19 +1,70 @@
 #!/usr/bin/env bash
 
-# We create a refference to the filepath, in this case Downloads.
-filepath=~/Downloads
-# We create a list of all folders we want to check and create.
-folders="Images Music PDF Documents"
+# Store the path to Downloads directory.
+filepath="$HOME/Downloads"
 
-# We grab each folder from folders and check if they exist otherwise we create them.
+
+# We store the names of all folders we want to check and create.
+folders="Images Music Videos PDF Documents Archives Code Other"
+
+
+# Start of loop
+while true
+do
+
+# We grab each folder from folders and check if they exist, otherwise we create them.
 for folder in $folders
 do
-    echo "$folde"
-
-    if [ -d "$filepath/$folder" ]; then
-        echo $filepath/$folder
-    else 
-        mkdir "$filepath/$folder" 
-    fi 
+    mkdir -p "$filepath/$folder"
+    echo "Created $filepath/$folder"  
 done
 
+
+for file in "$filepath"/*
+do
+    if [ -f "$file" ]; then
+# Extract everything after the last "." in the filename.
+# Then convert the extension to lowercase
+        extension="${file##*.}"
+        extension="${extension,,}"
+        
+# We take all files that contain certain names (jpg, mp3, mp4 ..) and tell them where to go.
+        case "$extension" in
+            jpg|jpeg|png|gif)
+                folder="Images"
+                ;;
+            mp3|wav|flac)
+                folder="Music"
+                ;;
+            mp4|mkv|avi)
+                folder="Videos"
+                ;;
+            pdf)
+                folder="PDF"
+                ;;
+            txt|doc|docx)
+                folder="Documents"
+                ;;
+            zip|tar|gz|bz2|xz|7z|rar)
+                folder="Archives"
+                ;;
+            sh|py|js|c|cpp|java)
+                folder="Code"
+                ;;
+
+            *)
+                folder="Other"
+                ;;
+        esac
+        
+        echo "Moving: $file -> $filepath/$folder/"
+        mv -- "$file" "$filepath/$folder/"
+    fi
+
+done
+
+# We wait 5 secounds before starting the next while loop
+
+sleep 5
+
+done

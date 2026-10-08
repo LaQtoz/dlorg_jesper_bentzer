@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+touch ~/Downloads/file{1..5}.txt \
+    ~/Downloads/pdf{1..5}.pdf \
+    ~/Downloads/music{1..5}.mp3 \
+    ~/Downloads/video{1..5}.mp4
+
+
+
+
