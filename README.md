@@ -1,23 +1,77 @@
 i# Linux Lab1
 
---USAGE--------------------------------
-Run the install file which will give permissions for Dlorg and also activate it. Dlorg will then create folders in your $HOME/Downloads for all your files and will check if the folders exists, if not re-build them and then filter all files into their correct folder.
+Linux Lab 1 — Downloads Organizer
+
+#--Usage-------------------------
+
+Run the install file. It will:
+
+Create the required directories.
+Copy dlorg to the user's local bin directory.
+Give dlorg execute permissions.
+Install the systemd service.
+Enable and start the service.
+
+Once installed, dlorg will organize files in:
+
+$HOME/Downloads
+
+It will make sure the required folders exist and then sort files into the appropriate folder based on their file extension.
 
 
-Dlorg works in the following way
-- We check if there are folders in $HOME/Downloads if there aren't any folders we create new once.
-(Each folder is independent and we can add more folders afterwards if we want to).
-- We  then check all files in $HOME/Downloads for file names backwards starting from the last . which gives us each file type.
-- Each file type is assigned to a folder and more types can be added afterwards if needed.
-- All of this happens in a While loop that restarts every 5 seconds meaning our Downloads folder will always sort all files into the correct folders.
+#--How Dlorg Works-------------------------
 
-!! A problem is that it currently replaces files of the same name in all folders which could be fixed if needed. !!
+Dlorg works in the following way:
+
+We check whether the required folders exist in $HOME/Downloads. If they don't exist, we create them.
+Each folder is independent, so additional folders and file types can be added later if needed.
+We then check all files in $HOME/Downloads and extract the file extension by looking at the last . in the filename.
+Each file extension is assigned to a destination folder.
+The program runs inside a while loop and checks the Downloads folder every 5 seconds.
+This means new files can be automatically sorted without having to manually run the program again.
+
+The general process is:
+
+Downloads
+    ↓
+Check that category folders exist
+    ↓
+Find files
+    ↓
+Get file extension
+    ↓
+Determine destination folder
+    ↓
+Move file
+    ↓
+Wait 5 seconds
+    ↓
+Repeat
 
 
+#--Known Problem-------------------------
+
+There is currently a problem when two files have the same name and are moved into the same destination folder.
+
+For example:
+
+Downloads/photo.jpg
+Images/photo.jpg
+
+If dlorg tries to move Downloads/photo.jpg into Images, the existing file can be replaced.
+
+This means the program currently has the potential to overwrite files.
+
+A future improvement would be to detect duplicate filenames and rename the new file instead, for example:
+
+photo.jpg
+photo_1.jpg
+photo_2.jpg
+
+This would allow the Downloads folder to remain clean without losing existing files.
 
 
-
-
+#--Planering-------------------------
 # För att kunna sortera filer in i mappar så krävs det att vi skapar en kod som tillåter dessa saker
 
 # - Skapa mappar i en specific path.
@@ -30,26 +84,4 @@ Dlorg works in the following way
 # - Checka om det finns folders som delar samma namn som den ska skapa
 # - Om det fins mappar med de namnen skapa inte nya annars skapa nya
 # Sortera alla filer till rätt map
-
-
-# Swap
-[._]*.s[a-v][a-z]
-# comment out the next line if you don't need vector files
-!*.svg
-[._]*.sw[a-p]
-[._]s[a-rt-v][a-z]
-[._]ss[a-gi-z]
-[._]sw[a-p]
-
-# Session
-Session.vim
-Sessionx.vim
-
-# Temporary
-.netrwhist
-*~
-# Auto-generated tag files
-tags
-# Persistent undo
-[._]*.un~
 
