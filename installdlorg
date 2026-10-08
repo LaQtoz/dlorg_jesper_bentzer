@@ -1,14 +1,27 @@
 #!/usr/bin/env bash
 
+# Create the directory where the dlorg script will be isntalled.
+# Create the directory where systemd user service will be stored.
+
 mkdir -p "$HOME/.local/bin"
 mkdir -p "$HOME/.config/systemd/user"
+
+# Copy the dlorg script into the user's local bin directory.
+# Copy the systemd service file into the user's systemd user directory
 
 cp dlorg "$HOME/.local/bin/dlorg"
 cp dlorg.service "$HOME/.config/systemd/user/dlorg.service"
 
+# Give the installed dlorg script premission to be executed.
+
 chmod +x "$HOME/.local/bin/dlorg"
+
+# Tell systemd to reload its configuration files.
+# Enable the service so it starts automatically and start it immediately.
 
 systemctl --user daemon-reload
 systemctl --user enable --now dlorg.service
+
+# Tells us that the installation is complete.
 
 echo "Downloads organizer installed!"
